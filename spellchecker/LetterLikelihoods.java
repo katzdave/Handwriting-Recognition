@@ -36,6 +36,6 @@ public class LetterLikelihoods {
   
   public double GetLikelihood(String letter){
     return Likelihoods.containsKey(letter) ?
-            Likelihoods.get(letter): SmoothWeight;
+            Likelihoods.get(letter) : SmoothWeight;
   }
 }
