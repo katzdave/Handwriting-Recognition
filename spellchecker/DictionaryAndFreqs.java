@@ -31,6 +31,10 @@ public class DictionaryAndFreqs {
     loadFrequencies();
   }
   
+  public HashMap<String,Integer> GetWordsOfSize(int size){
+    return WordsBySize.get(size);
+  }
+  
   private void initializeWordsBySize(){
     WordsBySize = new ArrayList<>();
     WordsBySize.add(new HashMap<String, Integer>()); //fill zero index
