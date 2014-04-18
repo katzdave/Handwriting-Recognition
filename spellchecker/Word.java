@@ -6,11 +6,16 @@
 
 package spellchecker;
 
+import java.util.List;
+
 /**
  *
  * @author David
  */
-public class Spellchecker {
-
+public class Word {
+  List<LetterLikelihoods> Letters;
   
+  public Word(List<LetterLikelihoods> letters){
+    Letters = letters;
+  }
 }

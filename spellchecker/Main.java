@@ -10,7 +10,9 @@ package spellchecker;
  *
  * @author David
  */
-public class Spellchecker {
-
-  
+public class Main {
+  public static void main(String[] args) {
+    DictionaryAndFreqs df = new DictionaryAndFreqs();
+    System.out.println("yo");
+  }  
 }
