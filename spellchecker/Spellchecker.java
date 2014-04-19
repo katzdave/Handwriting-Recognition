@@ -8,6 +8,7 @@ package spellchecker;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 /**
  *
@@ -22,6 +23,24 @@ public class Spellchecker {
   
   public String SpellcheckWord(Word w){
     HashMap<String,Integer> wos = Dictionary.GetWordsOfSize(w.GetSize());
+    double maxLikelihood = Double.NEGATIVE_INFINITY;
+    String maxLikelihoodWord = null;
+    for (Map.Entry<String, Integer> entry : wos.entrySet()) {
+      String key = entry.getKey();
+      Integer value = entry.getValue();
+      double logLikelihood = w.GetLogLikelihood(key) + Math.log((double) value);
+      if(logLikelihood > maxLikelihood){
+        maxLikelihood = logLikelihood;
+        maxLikelihoodWord = key;
+      }
+    }
+    return maxLikelihoodWord;
+  }
+  
+  public String SpellcheckWord(Word w, int k){
+    HashMap<String,Integer> wos = Dictionary.GetWordsOfSize(w.GetSize());
+    PriorityQueue<Double> pq = new PriorityQueue<>();
+    
     double maxLikelihood = Double.NEGATIVE_INFINITY;
     String maxLikelihoodWord = null;
     for (Map.Entry<String, Integer> entry : wos.entrySet()) {
