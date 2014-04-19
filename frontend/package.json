@@ -1,0 +1,10 @@
+{
+  "name": "nlpOcr",
+  "description": "front end server for NLP project",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": ">= 3.4.0",
+    "ejs": ">= 0.8.5",
+    "carrier": "x"
+  }
+}
