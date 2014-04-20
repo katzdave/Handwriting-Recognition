@@ -13,9 +13,9 @@ import java.util.List;
  * @author David
  */
 public class Word {
-  List<LetterLikelihoods> Letters;
+  List<TestExample> Letters;
   
-  public Word(List<LetterLikelihoods> letters){
+  public Word(List<TestExample> letters){
     Letters = letters;
   }
   
@@ -27,7 +27,8 @@ public class Word {
     double logLikelihood = 0;
     for(int i=0; i<Letters.size(); i++){
       String character = other.substring(i, i+1);
-      logLikelihood += Math.log(Letters.get(i).GetLikelihood(character));
+      logLikelihood += Math.log(Letters.get(i)
+              .Likelihoods.GetLikelihood(character));
     }
     return logLikelihood;
   }

@@ -76,6 +76,26 @@ public class FeatureVector{
     return out.substring(0, out.length()-1);
   }
   
+  public BufferedImage toImage(){
+    if(NumFeatures != 128){
+      System.err.println("Invalid feature vector to export");
+      System.exit(1);
+    }
+    Color black = new Color(0,0,0);
+    Color white = new Color(255,255,255);
+    BufferedImage img = new BufferedImage(8,16,BufferedImage.TYPE_BYTE_BINARY);
+    for(int r=0; r<8; r++){
+      for(int c=0; c<16; c++){
+        if(Features[c*8+r].Value == 1){
+          img.setRGB(r, c, black.getRGB());
+        }else{
+          img.setRGB(r, c, white.getRGB());
+        }
+      }
+    }
+    return img;
+  }
+  
   @Override
   public String toString(){
     String out = "";
@@ -106,6 +126,5 @@ public class FeatureVector{
     hash = 83 * hash + this.NumFeatures;
     hash = 83 * hash + Arrays.deepHashCode(this.Features);
     return hash;
-  }
-   
+  }   
 }

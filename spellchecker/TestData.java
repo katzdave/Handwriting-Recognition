@@ -39,11 +39,11 @@ public class TestData {
       System.err.println("Word too large, maximum length 15");
       System.exit(1);
     }
-    List<LetterLikelihoods> llh = new ArrayList<>();
+    List<TestExample> llh = new ArrayList<>();
     for(int i=0; i<word.length(); i++){
       String c = word.substring(i,i+1);
       List<TestExample> samples = AllLetters.get(c);
-      llh.add(samples.get(Randomizer.nextInt(samples.size())).Likelihoods);
+      llh.add(samples.get(Randomizer.nextInt(samples.size())));
     }
     
     return new Word(llh);

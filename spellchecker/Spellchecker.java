@@ -39,7 +39,7 @@ public class Spellchecker {
     return maxLikelihoodWord;
   }
   
-  public List<String> SpellcheckWord(Word w, int k){
+  public String[] SpellcheckWord(Word w, int k){
     HashMap<String,Integer> wos = Dictionary.GetWordsOfSize(w.GetSize());
     PriorityQueue<WordWeight> pq = new PriorityQueue<>();
     for (Map.Entry<String, Integer> entry : wos.entrySet()) {
@@ -51,9 +51,9 @@ public class Spellchecker {
         pq.poll();
       }
     }
-    List<String> res = new ArrayList<>(k);
+    String[] res = new String[k];
     for(int i=k-1; i>=0; i--){
-      res.add(i, pq.poll().Word);
+      res[i] = pq.poll().Word;
     }
     return res;
   }
