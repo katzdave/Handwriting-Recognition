@@ -12,6 +12,9 @@ package spellchecker;
  */
 public class Main {
   public static void main(String[] args) {
+    
+    TestDataParser tdp = new TestDataParser();
+    TestData td = tdp.GetTestData();
     DictionaryAndFreqs df = new DictionaryAndFreqs();
     System.out.println("yo");
   }  

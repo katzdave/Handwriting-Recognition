@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @author David
  */
 public class FeatureVector{
-  static int NumFeatures = 32;
+  int NumFeatures;
   static String Delim = ",";
   
   Feature[] Features;
@@ -25,7 +25,8 @@ public class FeatureVector{
     Features = new Feature[NumFeatures];
   }
   
-  public FeatureVector(String s){
+  public FeatureVector(String s, int numfeatures){
+    NumFeatures = numfeatures;
     Features = new Feature[NumFeatures];
     String[] strings = s.split(Delim);
     for(int i=0; i<NumFeatures; i++){
@@ -38,7 +39,9 @@ public class FeatureVector{
     }
   }
   
-  public FeatureVector(BufferedImage img, String s){
+  public FeatureVector(BufferedImage img, String s, int numfeatures){
+    NumFeatures = numfeatures;
+    
     Category = s;
     Features = new Feature[NumFeatures];
     for(int i=0; i<8; i++){
@@ -85,8 +88,12 @@ public class FeatureVector{
    @Override
    public boolean equals(Object oth){
      FeatureVector other = (FeatureVector) oth;
+     if(this.NumFeatures != other.NumFeatures){
+       return false;
+     }
+     
      for(int i=0; i<NumFeatures; i++){
-       if(this.Features[i] != other.Features[1]){
+       if(this.Features[i] != other.Features[i]){
          return false;
        }
      }
@@ -96,7 +103,9 @@ public class FeatureVector{
   @Override
   public int hashCode() {
     int hash = 3;
-    hash = 89 * hash + Arrays.deepHashCode(this.Features);
+    hash = 83 * hash + this.NumFeatures;
+    hash = 83 * hash + Arrays.deepHashCode(this.Features);
     return hash;
   }
+   
 }

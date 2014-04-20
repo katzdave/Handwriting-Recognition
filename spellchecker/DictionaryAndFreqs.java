@@ -25,9 +25,7 @@ public class DictionaryAndFreqs {
   
   public DictionaryAndFreqs(){
     initializeWordsBySize();
-    System.out.println("Loading dictionary...");
     loadDictionary();
-    System.out.println("Dictionary loaded! Loading Frequencies...");
     loadFrequencies();
   }
   

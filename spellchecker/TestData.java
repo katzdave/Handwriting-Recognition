@@ -18,18 +18,18 @@ import java.util.Random;
 public class TestData {
   String[] Alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l",
     "m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
-  HashMap<String, List<LetterLikelihoods>> AllLetters;
+  HashMap<String, List<TestExample>> AllLetters;
   
   Random Randomizer = new Random();
   
-  public TestData(List<LetterLikelihoods> lclc){
+  public TestData(List<TestExample> lclc){
     AllLetters = new HashMap<>();
     for(String letter : Alphabet){
-      AllLetters.put(letter, new ArrayList<LetterLikelihoods>());
+      AllLetters.put(letter, new ArrayList<TestExample>());
     }
     
-    for(LetterLikelihoods clc : lclc){
-      List<LetterLikelihoods> llh = AllLetters.get(clc.KnownCategory);
+    for(TestExample clc : lclc){
+      List<TestExample> llh = AllLetters.get(clc.KnownResult);
       llh.add(clc);
     }
   }
@@ -42,8 +42,8 @@ public class TestData {
     List<LetterLikelihoods> llh = new ArrayList<>();
     for(int i=0; i<word.length(); i++){
       String c = word.substring(i,i+1);
-      List<LetterLikelihoods> samples = AllLetters.get(c);
-      llh.add(samples.get(Randomizer.nextInt(samples.size())));
+      List<TestExample> samples = AllLetters.get(c);
+      llh.add(samples.get(Randomizer.nextInt(samples.size())).Likelihoods);
     }
     
     return new Word(llh);

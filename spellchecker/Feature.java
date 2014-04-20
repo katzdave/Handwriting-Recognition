@@ -18,6 +18,19 @@ public class Feature {
   }
   
   @Override
+  public boolean equals(Object oth){
+    Feature other = (Feature) oth;
+    return other.Value == this.Value;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 71 * hash + (int) (Double.doubleToLongBits(this.Value) ^ (Double.doubleToLongBits(this.Value) >>> 32));
+    return hash;
+  }
+  
+  @Override
   public String toString(){
     return Double.toString(Value);
   }

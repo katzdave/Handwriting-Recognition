@@ -26,13 +26,13 @@ public class LetterLikelihoods {
     }
   }
   
-  public LetterLikelihoods(CategoryLikelihoodContainer clc, String cat){
-    Likelihoods = new HashMap<>();
-    for(CategoryLikelihood cl : clc.CategoryLikelihoods){
-      Likelihoods.put(cl.Category, cl.Likelihood);
-    }
-    KnownCategory = cat;
-  }
+//  public LetterLikelihoods(CategoryLikelihoodContainer clc, String cat){
+//    Likelihoods = new HashMap<>();
+//    for(CategoryLikelihood cl : clc.CategoryLikelihoods){
+//      Likelihoods.put(cl.Category, cl.Likelihood);
+//    }
+//    KnownCategory = cat;
+//  }
   
   public double GetLikelihood(String letter){
     return Likelihoods.containsKey(letter) ?

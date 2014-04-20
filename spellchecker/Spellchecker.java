@@ -6,7 +6,9 @@
 
 package spellchecker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -37,21 +39,22 @@ public class Spellchecker {
     return maxLikelihoodWord;
   }
   
-  public String SpellcheckWord(Word w, int k){
+  public List<String> SpellcheckWord(Word w, int k){
     HashMap<String,Integer> wos = Dictionary.GetWordsOfSize(w.GetSize());
-    PriorityQueue<Double> pq = new PriorityQueue<>();
-    
-    double maxLikelihood = Double.NEGATIVE_INFINITY;
-    String maxLikelihoodWord = null;
+    PriorityQueue<WordWeight> pq = new PriorityQueue<>();
     for (Map.Entry<String, Integer> entry : wos.entrySet()) {
       String key = entry.getKey();
       Integer value = entry.getValue();
       double logLikelihood = w.GetLogLikelihood(key) + Math.log((double) value);
-      if(logLikelihood > maxLikelihood){
-        maxLikelihood = logLikelihood;
-        maxLikelihoodWord = key;
+      pq.add(new WordWeight(key, logLikelihood));
+      if(pq.size() > k){
+        pq.poll();
       }
     }
-    return maxLikelihoodWord;
+    List<String> res = new ArrayList<>(k);
+    for(int i=k-1; i>=0; i--){
+      res.add(i, pq.poll().Word);
+    }
+    return res;
   }
 }
