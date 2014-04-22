@@ -157,7 +157,7 @@
         for (var i = 0; i != featureVector.length; ++i) {
             //221 is grey color; 400 blockSz*blockSz is each compressed block
             //can be adjusted
-            if (featureVector[i] > blockSz*blockSz*221)
+            if (featureVector[i] > blockSz*blockSz*242)
                 featureVector[i] = 1;
             else 
                 featureVector[i] = 0;
