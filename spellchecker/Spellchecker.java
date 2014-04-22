@@ -45,7 +45,7 @@ public class Spellchecker {
     for (Map.Entry<String, Integer> entry : wos.entrySet()) {
       String key = entry.getKey();
       Integer value = entry.getValue();
-      double logLikelihood = w.GetLogLikelihoodSubs(key) + Math.log((double) value);
+      double logLikelihood = w.GetLogLikelihood(key) + Math.log((double) value);
       pq.add(new WordWeight(key, logLikelihood));
       if(pq.size() > k){
         pq.poll();
