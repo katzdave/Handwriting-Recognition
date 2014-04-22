@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package spellchecker;
+package spellcheckerv2;
 
 /**
  * Feature.  For now just a double.  Can expand at some point if necessary

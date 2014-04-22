@@ -47,7 +47,7 @@
         </execution>
         </executions>
         <configuration>
-            <mainClass>spellchecker.Main</mainClass>
+            <mainClass>spellserver.SpellServer</mainClass>
             <arguments>
             </arguments>
         </configuration>

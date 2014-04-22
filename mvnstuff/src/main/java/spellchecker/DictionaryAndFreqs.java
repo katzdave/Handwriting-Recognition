@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package spellchecker;
+package spellcheckerv2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -67,7 +67,6 @@ public class DictionaryAndFreqs {
         line = br.readLine();
       }
     }catch(IOException e){
-      System.out.println("I/O exception: " + e.getMessage());
       System.err.println("Invalid file");
       System.exit(1);
     }

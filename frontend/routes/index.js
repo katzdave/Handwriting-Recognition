@@ -5,7 +5,7 @@ var net = require('net');
 var carrier = require('carrier');
 var socket;
 var MAXLEN = 15;
-var IDPOS = 1;
+var IDPOS = 0;
 var DELIM = '~';
 var MSGID = 'W';
 
@@ -23,18 +23,19 @@ var convertToMsgString = function(messageObj, count) {
   return retstr;
 };
 
-var sendToClient = function(strArr, res) {
-  res.send(strArr.toString());
+var sendToClient = function(str, res) {
+  res.send(str);
 }
 
+//starts connection and recieves lines of form
+//EVENTNUMBER~Word1~Word2...
 exports.startConnection = function(port, host) {
   var port = port || 20000;
   var host = host || "127.0.0.1";
   socket = net.createConnection(port, host);
   carrier.carry(socket, function(line) {
     console.log('got one line: ' + line);
-    var strArr = line.split(DELIM);
-    eventEmitter.emit(strArr[IDPOS], strArr);
+    eventEmitter.emit(line[IDPOS], line);
   });
 };
 

@@ -1,8 +1,41 @@
-canvas {
-    display: inline-block;
-    border: 1px solid black;
+body {
+    background-color:#F0F8FF;
 }
 
-#sendBtn {
-    display: block;
+button {
+    background-color: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: poiner;
+    border:none;
+    display: inline-block;
+}
+
+button:hover {
+    border: none;
+    background:red;
+    box-shadow: 0px 0px 1px #777;
+}
+
+#header {
+    position:fixed;
+    left:50%;
+    margin-left:-200px; /*negative half the width */
+    height:100px;
+}
+
+#footer {
+    background-color: #F3F3F3;
+    left:50%;
+    margin-left:-200px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    position:fixed;
+    bottom:0;
+    width:100%;
 }

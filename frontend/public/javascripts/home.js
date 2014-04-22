@@ -1,196 +1,184 @@
+//Make Canvases
+(function() {
 
-/*var xStart,
-xEnd,
-yStart,
-yEnd,
-paint,
-ctx;
-$(document).ready(function () {
-
-    if (typeof FlashCanvas != "undefined") {
-        FlashCanvas.initElement($('canvas')[0]);
+    if(!('getContext' in document.createElement('canvas'))){
+        alert('Sorry, it looks like your browser does not support canvas!');
+        return false;
     }
-    ctx = $('canvas')[0].getContext("2d");
-    ctx.strokeStyle = '#000';
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-    ctx.lineWidth = 1;
 
+    var maxCanvases = 15;
+    var currCanvases = 0;
+    var canvW = 80;
+    var canvH = 160;
+    var pixelsInCanv = canvW * canvH;
 
-    $('canvas').bind('mousedown mousemove mouseup mouseleave touchstart touchmove touchend', function (e) {
-        var orig = e.originalEvent;
+    var partitionSz = 10;
+    var rowLen = 8;
+    var fvHeight = 16;
+    var blockSz = partitionSz;
 
-        if (e.type == 'mousedown') {
-            e.preventDefault();
-            e.stopPropagation();
+    var allCanvases = new Array();
 
-            xStart = e.clientX - $(this).offset().left;
-            yStart = e.clientY - $(this).offset().top;
-            xEnd = xStart;
-            yEnd = yStart;
+    // Creates a new canvas element and appends it as a child
+    // to the parent element, and returns the reference to
+    // the newly created canvas element
+    function createCanvas(parent, width, height) {
+        var canvas = {};
+        canvas.node = document.createElement('canvas');
+        canvas.context = canvas.node.getContext('2d');
+        canvas.node.width = width || 80;
+        canvas.node.height = height || 160;
+        canvas.node.style.margin = '1em 0.5em 0 0.5em';
+        canvas.node.style.border = "1px solid black";
+        parent.appendChild(canvas.node);
+        return canvas;
+    }
 
-            paint = true;
-            draw(e.type);
+    function init(container, width, height, fillColor) {
+        var canvas = createCanvas(container, width, height);
+        allCanvases.push(canvas);
+        var ctx = canvas.context;
+        
+        ctx.fillCircle = function(x, y, radius, fillColor) {
+            this.fillStyle = fillColor;
+            this.beginPath();
+            this.moveTo(x, y);
+            this.arc(x, y, radius, 0, Math.PI * 2, false);
+            this.fill();
+        };
+        ctx.clearTo = function(fillColor) {
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(0, 0, width, height);
+        };
+        ctx.clearTo(fillColor || "#ddd");
 
-        } else if (e.type == 'mousemove') {
-            if (paint == true) {
-                xEnd = e.clientX - $(this).offset().left;
-                yEnd = e.clientY - $(this).offset().top;
+        // bind mouse events
+        canvas.node.onmousemove = function(e) {
+            if (!canvas.isDrawing) {
+               return;
+            }
+            var x = e.pageX - this.offsetLeft;
+            var y = e.pageY - this.offsetTop;
+            var radius = 8;
+            var fillColor = '#ff0000';
+            ctx.fillCircle(x, y, radius, fillColor);
+            //set that canvas has been touched
+            canvas.hasDrawn = true;
+        };
+        canvas.node.onmousedown = function(e) {
+            canvas.isDrawing = true;
+        };
+        canvas.node.onmouseup = function(e) {
+            canvas.isDrawing = false;
+        };
+    }
 
+    //creates a button that when clicked adds more canvases
+    var container = document.getElementById('myList');
+    var button = document.getElementById('addLetterButton');
+    button.onclick = function() {
+        if (currCanvases < maxCanvases) {
+            init(container, canvW, canvH, '#ddd');
+            ++currCanvases;
+        }
+        return false;
+    };
 
-                // lineThickness = 5 - Math.sqrt((xStart - xEnd) *(xStart-xEnd) + (yStart - yEnd) * (yStart-yEnd))/10;
-                // if(lineThickness < 1){
-                //     lineThickness = 1;   
-                // }
+    //sends serialized canvas data to server
+    //shade of grey used is 221
+    //use every 4th value
+    var senderButton = document.getElementById('sendToServer');
+    senderButton.onclick = function() {
+        var toServerObj = {};
+        var upperBound = (pixelsInCanv-1)*4;
+        var i;
+        for (i = 0; i != allCanvases.length; ++i) {
+            if (allCanvases[i].hasDrawn) {
+                var canv = allCanvases[i].node;
+                var data = allCanvases[i].context.getImageData(0, 0, canv.width, canv.height);
+                toServerObj[i.toString()] = reduceCanvasToFV(data.data).toString();
+            } else {
+                break;
+            }
+        }
+        if (!jQuery.isEmptyObject(toServerObj)) {
+            alert(JSON.stringify(toServerObj));
+            $.ajax({
+                url: '/data',
+                type: 'GET',
+                data: toServerObj,
+                success: function(string) {alert(string);}
+            });
+        } else {
+            alert("Submitted word format invalid. " +
+                "Perhaps a blank letter is in a position where it should not be in. " +
+                "The first letter should not be blank.");
+        }
+        return false;
+    }
 
-                lineThickness = 1 + Math.sqrt((xStart - xEnd) * (xStart - xEnd) + (yStart - yEnd) * (yStart - yEnd)) / 5;
+    //compresses canvas to 32 length feature vector
+    function reduceCanvasToFV(imageDataArr) {
+        var interArr = new Array();
+        var j = 0;
+        var csum = 0;
+        //i is column
+        //j compresses 20 cells at once
+        for (var i = 0; i != imageDataArr.length; i+=4) {
+            if (j == blockSz) {
+                interArr.push(csum);
+                j = 0;
+                csum = 0;
+            }
+            csum += imageDataArr[i];
+            //csum += imageDataArr[i+1];
+            //csum += imageDataArr[i+2];
+            //csum += imageDataArr[i+3];
+            ++j;
+        }
+        //edge case for last pixel
+        interArr.push(csum);
 
-
-
-                if (lineThickness > 10) {
-                    lineThickness = 10;
+        var featureVector = new Array();
+        var distBw = interArr.length / fvHeight;
+        current = 0;
+        for (var i = 0; i != fvHeight; ++i) {
+            for (j = 0; j != rowLen; ++j) {
+                cSum = 0;
+                initial = i*distBw+j;
+                for (var k = initial; k != initial+(rowLen*blockSz); k+=rowLen) {
+                    cSum += interArr[k];
                 }
-
-                ctx.lineWidth = lineThickness;
-                draw(e.type);
+                featureVector.push(cSum);
             }
-        } else if (e.type == 'mouseup') {
-            paint = false;
-        } else if (e.type == 'mouseleave') {
-            paint = false;
-        } else if (e.type == 'touchstart') {
-            if (orig.touches.length == 1) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                xStart = orig.changedTouches[0].pageX - $(this).offset().left;
-                yStart = orig.changedTouches[0].pageY - $(this).offset().top;
-                xEnd = xStart;
-                yEnd = yStart;
-
-                paint = true;
-                draw(e.type);
-            }
-        } else if (e.type == 'touchmove') {
-            if (orig.touches.length == 1) {
-                if (paint == true) {
-                    xEnd = orig.changedTouches[0].pageX - $(this).offset().left;
-                    yEnd = orig.changedTouches[0].pageY - $(this).offset().top;
-
-
-
-                    var x1 = xEnd,
-                        x2 = xStart,
-                        y1 = yEnd,
-                        y2 = yStart;
-
-
-                    lineThickness = 1 + Math.sqrt((xStart - xEnd) * (xStart - xEnd) + (yStart - yEnd) * (yStart - yEnd)) / 6;
-                    if (lineThickness > 10) {
-                        lineThickness = 10;
-                    }
-
-
-                    ctx.lineWidth = lineThickness;
-
-
-                    draw(e.type);
-                }
-            }
-        } else if (e.type == 'touchend') {
-            paint = false;
         }
 
-    });
+        //convert to 0's and 1's depending on below/above threshold
+        for (var i = 0; i != featureVector.length; ++i) {
+            //221 is grey color; 400 blockSz*blockSz is each compressed block
+            //can be adjusted
+            if (featureVector[i] > blockSz*blockSz*235)
+                featureVector[i] = 1;
+            else 
+                featureVector[i] = 0;
+        }
 
-    
-});
-
-function draw(event) {
-
-    if (event == 'mousedown') {
-        ctx.beginPath();
-        ctx.moveTo(xStart, yStart);
-        ctx.lineTo(xEnd, yEnd);
-        ctx.stroke();
-    } else if (event == 'mousemove') {
-        ctx.beginPath();
-        ctx.moveTo(xStart, yStart);
-        ctx.lineTo(xEnd, yEnd);
-        ctx.stroke();
-    } else if (event == 'touchstart') {
-        ctx.beginPath();
-        ctx.moveTo(xStart, yStart);
-        ctx.lineTo(xEnd, yEnd);
-        ctx.stroke();
-    } else if (event == 'touchmove') {
-        ctx.beginPath();
-        ctx.moveTo(xStart, yStart);
-        ctx.lineTo(xEnd, yEnd);
-        ctx.stroke();
+        //128 length vector
+        return featureVector;
     }
-    xStart = xEnd;
-    yStart = yEnd;
-}
 
-function canvasBind(e) {} */
-var act = null;
-var contexts = [];
-var draw = false;
-var c = false;
+    //clear inputs
+    document.getElementById('clear').onclick = function() {
+        clear = function(ctx, fillColor) {
+            ctx.fillStyle = fillColor;
+            ctx.fillRect(0, 0, width, height);
+        };
+        for (var i = 0; i != allCanvases.length; ++i) {
+            var canv = allCanvases[i].node;
+            var ctx = allCanvases[i].context;
+            ctx.fillStyle = "#ddd";
+            ctx.fillRect(0, 0, canv.width, canv.height);
+        }
+    }
 
-function createLayer (w, h) {
-
-    var canvas = document.createElement('canvas');
-
-    canvas.width = w;
-    canvas.height = h;
-    canvas.style.width = w + "px";
-    canvas.style.height = h + "px";
-    canvas.style.position = "absolute";
-
-    var body = document.body.appendChild('<div>' + canvas + '</div>');
-
-    return canvas;
-}
-
-function boot() {
-/*
-$.each( obj, function( key, value ) {
-  alert( key + ": " + value );
-});*/
-    
-    $('.cvs')
-        .each(function() {
-            id = this.id;
-            contexts[id] = this.getContext('2d');
-        })
-        .mouseout(function() {
-            c=false;
-        })
-        .mousedown(function(){
-            draw = true;
-        })
-        .mouseup(function(){
-            draw = false;
-        })
-        .mousemove(function(ev){
-            var id = this.id,
-                o = $(this).offset(),
-                x = (ev.pageX - o.left),
-                y = (ev.pageY - o.top);
-
-            if(draw && contexts[id] != null) {
-                if (!c) {
-                    contexts[id].beginPath();
-                    contexts[id].moveTo(x, y);
-                    c = true;
-                } else {
-                    contexts[id].lineTo(x, y);
-                    contexts[id].stroke();
-                }
-            }
-        });
-}
-
-$(document).ready(boot);
+}());

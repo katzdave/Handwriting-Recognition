@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package spellchecker;
+package spellcheckerv2;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,14 +1,19 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 </head>
 <body>
-	<button id='addLetterButton'> Add Letter </button>
-	<button id='sendToServer' style="display: inline-block;">Upload Word to Server</button>
-	<button id='clear' style="display: inline-block;">Clear Inputs</button>
-	<!-- <button id='testAjax' style="display: inline-block;">testAjax</button> -->
-	<p1 id="status" style="display: inline-block;">Status</p1>
+  <div id='header'>
+  <button id='addLetterButton'> Add Letter </button>
+  <button id='sendToServer' >Upload Word to Server</button>
+  <button id='clear'>Clear Inputs</button>
+  </div>
+	<ul style="display: inline-block;"></ul>
   <ul id='myList' />
+  <div id='footer'>
+    <p1>This is a spell checker. It can only check one word at a time.</p1>
+  </div>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="javascripts/jscode.js"></script>
+	<script type="text/javascript" src="javascripts/home.js"></script>
 </body>
 </html>

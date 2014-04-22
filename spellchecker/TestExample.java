@@ -4,17 +4,17 @@
  * and open the template in the editor.
  */
 
-package spellchecker;
+package spellcheckerv2;
 
 /**
  *
  * @author David
  */
 public class TestExample {
-  FeatureVector Original;
-  FeatureVector Summed;
-  LetterLikelihoods Likelihoods;
+  public FeatureVector Original;
+  public FeatureVector Summed;
+  public LetterLikelihoods Likelihoods;
   
-  String KnownResult = null;
-  String PredictedResult = null;
+  public String KnownResult = null;
+  public String PredictedResult = null;
 }
