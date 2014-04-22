@@ -106,16 +106,36 @@
                 "Perhaps a blank letter is in a position where it should not be in. " +
                 "The first letter should not be blank.");
         } else {
-            alert(JSON.stringify(toServerObj));
+            //alert(JSON.stringify(toServerObj));
             $.ajax({
                 url: '/data',
                 type: 'GET',
                 data: toServerObj,
-                success: function(string) {alert(string);}
+                //success: function(string) {alert(string);}
+                success: function(string) {
+                    var dispStr = 'These are your top three suggestions:\n';
+                    var strArr = string.split('~');
+                    //strArr.length - 1 because strArr[0] is ID number
+                    for (var i = 0; i != strArr.length-1; ++i) {
+                        dispStr += ((i+1) + '. ' + strArr[i+1] + '\n');
+                    }
+                    alert(dispStr);
+                }
             });
         }
         return false;
     }
+    /*
+
+    function displayResults(string) {
+        var maxItems = 3;
+        var strArr = maxItems.split("~");
+        for (var i = 0; i != maxItems; ++i) {
+            $("#"+i.toString()).text('hello');
+            //$("#"+i.toString()).text())
+            //alert(document.getElementById(i.toString()).innerHTML = strArr[i+1]);
+        }
+    }*/
 
     //compresses canvas to 32 length feature vector
     function reduceCanvasToFV(imageDataArr) {
@@ -157,7 +177,7 @@
         for (var i = 0; i != featureVector.length; ++i) {
             //221 is grey color; 400 blockSz*blockSz is each compressed block
             //can be adjusted
-            if (featureVector[i] > blockSz*blockSz*242)
+            if (featureVector[i] > blockSz*blockSz*243)
                 featureVector[i] = 1;
             else 
                 featureVector[i] = 0;

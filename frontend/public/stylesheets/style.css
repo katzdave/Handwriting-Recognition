@@ -30,11 +30,10 @@ button:hover {
 }
 
 #footer {
-    background-color: #F3F3F3;
     left:50%;
     margin-left:-200px;
     padding-top: 10px;
-    padding-bottom: 0px;
+    padding-bottom: 20px;
     position:fixed;
     bottom:0;
     width:100%;
