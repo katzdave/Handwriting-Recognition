@@ -35,7 +35,8 @@ exports.startConnection = function(port, host) {
   socket = net.createConnection(port, host);
   carrier.carry(socket, function(line) {
     console.log('got one line: ' + line);
-    eventEmitter.emit(line[IDPOS], line);
+    var strArr = line.split("~");
+    eventEmitter.emit(strArr[IDPOS], line);
   });
 };
 

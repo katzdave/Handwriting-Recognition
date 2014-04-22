@@ -1,11 +1,8 @@
 
 var express = require('express'),
     exphbs  = require('ejs'),
-    emitter = require('events').EventEmitter(),
-    carrier = require('carrier'),
-    net = require('net'),
     path = require('path'),
-    app = express()
+    app = express(),
     index = require('./routes/index');
 
 app.configure(function() {

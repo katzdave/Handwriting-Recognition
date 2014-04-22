@@ -101,7 +101,11 @@
                 break;
             }
         }
-        if (!jQuery.isEmptyObject(toServerObj)) {
+        if (jQuery.isEmptyObject(toServerObj)) {
+            alert("Submitted word format invalid. " +
+                "Perhaps a blank letter is in a position where it should not be in. " +
+                "The first letter should not be blank.");
+        } else {
             alert(JSON.stringify(toServerObj));
             $.ajax({
                 url: '/data',
@@ -109,10 +113,6 @@
                 data: toServerObj,
                 success: function(string) {alert(string);}
             });
-        } else {
-            alert("Submitted word format invalid. " +
-                "Perhaps a blank letter is in a position where it should not be in. " +
-                "The first letter should not be blank.");
         }
         return false;
     }
@@ -157,7 +157,7 @@
         for (var i = 0; i != featureVector.length; ++i) {
             //221 is grey color; 400 blockSz*blockSz is each compressed block
             //can be adjusted
-            if (featureVector[i] > blockSz*blockSz*235)
+            if (featureVector[i] > blockSz*blockSz*221)
                 featureVector[i] = 1;
             else 
                 featureVector[i] = 0;
@@ -178,6 +178,7 @@
             var ctx = allCanvases[i].context;
             ctx.fillStyle = "#ddd";
             ctx.fillRect(0, 0, canv.width, canv.height);
+            allCanvases[i].hasDrawn = false;
         }
     }
 
