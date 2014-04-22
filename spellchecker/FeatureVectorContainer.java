@@ -38,8 +38,9 @@ public class FeatureVectorContainer {
   }
   
   public FeatureVectorContainer(List<FeatureVector> lfv){
+    trainingVectors = new ArrayList<>();
     for(FeatureVector fv : lfv){
-      AddVector(fv);
+      this.AddVector(fv);
     }
   }
   

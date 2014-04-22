@@ -1,12 +1,11 @@
 package spellserver;
 
 import connectionManager.*;
-import spellcheckerv2.FeatureVector;
 import java.io.BufferedReader;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import spellcheckerv2.*;
+import spellchecker.*;
 
 public class SpellServerProtocol extends Protocol{
   
@@ -111,12 +110,12 @@ public class SpellServerProtocol extends Protocol{
   String convertFVSize(String s){
     int flag = 0;
     int cnt = 0;
-    int[][] stuff = new int[16][8];
-    int[][] more = new int[8][4];
+    double[][] stuff = new double[16][8];
+    double[][] more = new double[8][4];
     String[] splat = s.split(",");
     String res = "";
-    for(int i=0; i<splat.length; i++){
-      stuff[flag][cnt] = Integer.parseInt(splat[i]);
+    for(int i=0; i<128; i++){
+      stuff[flag][cnt] = Double.parseDouble(splat[i]);
       cnt++;
       if(cnt == 8){
         flag++;
@@ -141,4 +140,18 @@ public class SpellServerProtocol extends Protocol{
     }
     return res;
   }
+  
+    public static void main(String [] args){
+      String s = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,1,0,0,0,0,1,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
+      String s2 = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,1,1,0,1,1,1,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
+      String s3 = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,1,0,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,1,1,1,1,0,1,1,0,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
+      List<FeatureVector> lfv = new ArrayList<>();
+      SpellServerProtocol ssp = new SpellServerProtocol();
+      lfv.add(new FeatureVector(s,128));
+      lfv.add(new FeatureVector(s2,128));
+      lfv.add(new FeatureVector(s3,128));
+      String[] strings = ssp.convertFeatureVectorsToStrings(lfv);
+      System.out.println(strings[0] + " " + strings[1] + " " + strings[2]);
+      //Correct word is now!
+    }
 }
