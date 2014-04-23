@@ -125,17 +125,6 @@
         }
         return false;
     }
-    /*
-
-    function displayResults(string) {
-        var maxItems = 3;
-        var strArr = maxItems.split("~");
-        for (var i = 0; i != maxItems; ++i) {
-            $("#"+i.toString()).text('hello');
-            //$("#"+i.toString()).text())
-            //alert(document.getElementById(i.toString()).innerHTML = strArr[i+1]);
-        }
-    }*/
 
     //compresses canvas to 32 length feature vector
     function reduceCanvasToFV(imageDataArr) {
@@ -199,6 +188,13 @@
             ctx.fillStyle = "#ddd";
             ctx.fillRect(0, 0, canv.width, canv.height);
             allCanvases[i].hasDrawn = false;
+        }
+    }
+
+    document.getElementById('remove').onclick = function() {
+        var popped = allCanvases.pop();
+        if (popped !== undefined) {
+            popped.node.remove();
         }
     }
 
