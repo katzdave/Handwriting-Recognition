@@ -195,6 +195,7 @@
         var popped = allCanvases.pop();
         if (popped !== undefined) {
             popped.node.remove();
+            --currCanvases;
         }
     }
 
