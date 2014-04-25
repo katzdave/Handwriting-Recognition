@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  *
@@ -22,6 +24,7 @@ public class DictionaryAndFreqs {
   static String FREQUENCIES = "resources/brown_freq.txt";
   
   List<HashMap<String,Integer>> WordsBySize;
+  Random r = new Random();
   
   public DictionaryAndFreqs(){
     initializeWordsBySize();
@@ -31,6 +34,35 @@ public class DictionaryAndFreqs {
   
   public HashMap<String,Integer> GetWordsOfSize(int size){
     return WordsBySize.get(size);
+  }
+  
+  public List<String> GetSampleWordsOfSize(int size, int numSamples){
+    List<String> words = new ArrayList<>();
+    HashMap<String,Integer> wordsOfSize = WordsBySize.get(size);
+    long sum = 0;
+    for(Integer i : wordsOfSize.values()){
+      sum += (long)i;
+    }
+    for(int i=0; i<numSamples; i++){
+      words.add(randomPick(wordsOfSize, sum));
+    }
+    return words;
+  }
+  
+  public String randomPick(HashMap<String,Integer> w, long sum) {
+    long randomValue = (long) (r.nextDouble()*sum);
+    long currentSum = 0;
+    String lastElement = null;
+
+    for (Map.Entry<String, Integer> entry : w.entrySet()){
+      String t = entry.getKey();      
+      if (randomValue < currentSum + w.get(t)){
+        return t;
+      }
+      currentSum+= entry.getValue();
+      lastElement = t;
+    }
+    return lastElement;
   }
   
   private void initializeWordsBySize(){

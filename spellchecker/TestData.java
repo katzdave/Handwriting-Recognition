@@ -32,6 +32,10 @@ public class TestData {
       List<TestExample> llh = AllLetters.get(clc.KnownResult);
       llh.add(clc);
     }
+    
+    for(String letter : Alphabet){
+      List<TestExample> samples = AllLetters.get(letter);
+    }
   }
   
   public Word GetSampleWord(String word){
