@@ -29,7 +29,7 @@ public class Main {
     Spellchecker sc = new Spellchecker(df);
     
     Statistics s = new Statistics(sc, td);
-    Double[] d = s.GetStatsBySize(1000, 2);
+    Double[] d = s.GetStatsBySize(1000, 1);
     for(int i=1; i<=15; i++){
       System.out.println(i + "\t" + d[i]);
     }
