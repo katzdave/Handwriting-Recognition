@@ -71,6 +71,9 @@
         canvas.node.onmouseup = function(e) {
             canvas.isDrawing = false;
         };
+        canvas.node.onmouseout = function(e) {
+            canvas.isDrawing = false;
+        }
     }
 
     //creates a button that when clicked adds more canvases
