@@ -29,10 +29,20 @@ public class Main {
     Spellchecker sc = new Spellchecker(df);
     
     Statistics s = new Statistics(sc, td);
-    Double[] d = s.GetStatsBySize(1000, 1);
-    for(int i=1; i<=15; i++){
-      System.out.println(i + "\t" + d[i]);
-    }
+//    for(Integer i : s.GetCorpusCounts()){
+//      System.out.println(i);
+//    }
+//    System.out.println();
+//    for(Integer i : s.GetCorpusFrequencies()){
+//      System.out.println(i);
+//    }
+    
+    System.out.println(s.GetOverallStats(1000, 2, true, true));
+    
+//    Double[] d = s.GetStatsBySize(1000, 1, false, true);
+//    for(int i=1; i<=15; i++){
+//      System.out.println(i + "\t" + d[i]);
+//    }
     
 //    int wordNumber = 0;
 //    try(BufferedReader br = new BufferedReader(new FileReader(input));

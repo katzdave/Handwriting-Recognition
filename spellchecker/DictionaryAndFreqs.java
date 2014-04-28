@@ -24,12 +24,15 @@ public class DictionaryAndFreqs {
   static String FREQUENCIES = "resources/brown_freq.txt";
   
   List<HashMap<String,Integer>> WordsBySize;
+  Integer[] SizeCounts;
+  Integer[] SizeFrequencies;
   Random r = new Random();
   
   public DictionaryAndFreqs(){
     initializeWordsBySize();
     loadDictionary();
     loadFrequencies();
+    populateSizeCounts();
   }
   
   public HashMap<String,Integer> GetWordsOfSize(int size){
@@ -121,6 +124,22 @@ public class DictionaryAndFreqs {
     }catch(IOException e){
       System.err.println("Invalid file");
       System.exit(1);
+    }
+  }
+  
+  private void populateSizeCounts(){
+    SizeCounts = new Integer[16];
+    SizeFrequencies = new Integer[16];
+    for(int i=1; i<=15; i++){
+      HashMap<String,Integer> hm = WordsBySize.get(i);
+      int sum = 0;
+      int amt = 0;
+      for(Integer j : hm.values()){
+        sum += j;
+        amt++;
+      }
+      SizeCounts[i] = amt;
+      SizeFrequencies[i] = sum;
     }
   }
 }

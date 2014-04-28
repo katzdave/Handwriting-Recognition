@@ -39,13 +39,17 @@ public class Spellchecker {
     return maxLikelihoodWord;
   }
   
-  public String[] SpellcheckWord(Word w, int k){
+  public String[] SpellcheckWord(Word w, int k, boolean subs){
     HashMap<String,Integer> wos = Dictionary.GetWordsOfSize(w.GetSize());
     PriorityQueue<WordWeight> pq = new PriorityQueue<>();
     for (Map.Entry<String, Integer> entry : wos.entrySet()) {
       String key = entry.getKey();
       Integer value = entry.getValue();
-      double logLikelihood = w.GetLogLikelihood(key) + Math.log((double) value);
+      double logLikelihood;
+      if(subs)
+        logLikelihood = w.GetLogLikelihoodSubs(key) + Math.log((double) value);
+      else
+        logLikelihood = w.GetLogLikelihood(key) + Math.log((double) value);
       pq.add(new WordWeight(key, logLikelihood));
       if(pq.size() > k){
         pq.poll();
