@@ -1,7 +1,7 @@
 SpellChecker
 ============
-David Katz
-Harrison Zhao
+David Katz <br>
+Harrison Zhao <br>
 
 A spell checker that uses optical character recognition to load in words <br>
 
