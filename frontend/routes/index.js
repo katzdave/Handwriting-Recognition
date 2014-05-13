@@ -14,7 +14,7 @@ var sendMessage = function(stream, message) {
 };
 
 var convertToMsgString = function(messageObj, count) {
-  console.log(count);
+  //console.log(count);
   var retstr = (MSGID + DELIM + count);
   for (var i = 0; i != MAXLEN; ++i) {
     if (messageObj.hasOwnProperty(i.toString()))
@@ -34,7 +34,7 @@ exports.startConnection = function(port, host) {
   var host = host || "127.0.0.1";
   socket = net.createConnection(port, host);
   carrier.carry(socket, function(line) {
-    console.log('got one line: ' + line);
+    //console.log('got one line: ' + line);
     var strArr = line.split("~");
     eventEmitter.emit(strArr[IDPOS], line);
   });

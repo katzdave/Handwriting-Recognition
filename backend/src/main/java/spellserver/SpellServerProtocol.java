@@ -62,7 +62,7 @@ public class SpellServerProtocol extends Protocol{
    */
   @Override
   public void processManagerMessages(Message message) {
-    System.out.println("received msg: " + message.message);
+    //System.out.println("received msg: " + message.message);
     String [] messagePieces;
     messagePieces = message.message.split(DELIM);
     switch(messagePieces[0].charAt(0)) {
