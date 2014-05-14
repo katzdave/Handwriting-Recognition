@@ -18,5 +18,5 @@ To run locally using pre-processed KNN data
 =================
 
 Edit the file inputs.txt to contain the words you would like generated <br>
-Type make runMain to generate an outputs.html file <br>
+Type make runMainFile to generate an outputs.html file <br>
 This file will contain images of words and a prediction for each <br>
