@@ -26,10 +26,11 @@ public class MainStats {
 //      System.out.println(i);
 //    }
     
-    //    Double[] d = s.GetStatsBySize(1000, 1, false, true);
-//    for(int i=1; i<=15; i++){
-//      System.out.println(i + "\t" + d[i]);
-//    }
-    System.out.println(s.GetOverallStats(1000, 2, true, true));
+    Double[] d = s.GetStatsBySize(1000, 1, false, false);
+    for(int i=1; i<=15; i++){
+      System.out.println(i + "\t" + d[i]);
+    }
+    
+    //System.out.println(s.GetOverallStats(1000, 2, true, true));
   }
 }
