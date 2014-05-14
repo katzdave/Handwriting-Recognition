@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Word {
   static double subWeight = .2;
-  
+  static LetterPercentages LP = new LetterPercentages();
   List<TestExample> Letters;
   
   public Word(List<TestExample> letters){
@@ -31,6 +31,7 @@ public class Word {
       String character = other.substring(i, i+1);
       logLikelihood += Math.log(Letters.get(i)
               .Likelihoods.GetLikelihood(character));
+      logLikelihood += Math.log(LP.GetPercentage(character));
     }
     return logLikelihood;
   }
@@ -51,6 +52,9 @@ public class Word {
       }
       logLikelihood += l;
     }
-    return logLikelihood - minLikelihood + Math.log(subWeight);
+    if(minLikelihood < Math.log(subWeight))
+      return logLikelihood - minLikelihood + Math.log(subWeight);
+    else
+      return logLikelihood;
   }
 }
