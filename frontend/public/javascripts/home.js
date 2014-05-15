@@ -1,12 +1,12 @@
 //Make Canvases
 (function() {
 
-    var nyan = new Audio('http://web.mit.edu/kpeng94/www/nene/nyancat.mp3');
+    /*var nyan = new Audio('http://web.mit.edu/kpeng94/www/nene/nyancat.mp3');
     nyan.addEventListener('ended', function() {
         this.currentTime = 0;
         this.play();
     }, false);
-    nyan.play();
+    nyan.play();*/
     
     if(!('getContext' in document.createElement('canvas'))){
         alert('Sorry, it looks like your browser does not support canvas!');
