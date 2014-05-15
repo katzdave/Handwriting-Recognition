@@ -23,7 +23,7 @@ This file will contain images of words and a prediction for each <br>
 
 Sample Website Outputs
 ==================
-![alt tag](https://raw.github.com/katzdave/SpellChecker/sample_hello.png)
-![alt tag](https://raw.github.com/katzdave/SpellChecker/sample_awesome.png)
-![alt tag](https://raw.github.com/katzdave/SpellChecker/sample_awesome1.png)
+![alt tag](https://raw.github.com/katzdave/SpellChecker/master/sample_hello.png)
+![alt tag](https://raw.github.com/katzdave/SpellChecker/master/sample_awesome.png)
+![alt tag](https://raw.github.com/katzdave/SpellChecker/master/sample_awesome1.png)
 
