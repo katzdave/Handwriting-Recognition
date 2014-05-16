@@ -1,9 +1,13 @@
-SpellChecker
+KNN Based Handwriting Recognition
 ============
 David Katz <br>
 Harrison Zhao <br>
 
-A spell checker that uses optical character recognition to load in words <br>
+A handwriting recognition system <br>
+Applies KNN learning on 16x8 images to approximate P(letter|image) for each image <br>
+Applies the Brown Corpus to compute the MAP estimate for sequences of images representing words <br>
+Performs above 93% accuracy for words randomly sampled from the Brown Corpus<br>
+Performs above 99% accuracy for words of length greater than 8<br>
 
 To run the server
 =================
